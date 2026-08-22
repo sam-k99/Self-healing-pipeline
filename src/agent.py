@@ -20,7 +20,7 @@ tools = [
     inspect_schema,
     read_dbt_file,
     write_dbt_file,
-    run_dbt_tests
+    run_dbt_tests,
     commit_and_push_fix
 ]
 

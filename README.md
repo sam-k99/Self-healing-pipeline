@@ -66,7 +66,7 @@ self-healing-pipeline/
 Clone the repository and create a `.env` file in the root directory:
 ```env
 POSTGRES_USER=admin
-POSTGRES_PASSWORD=(whatever you password is)
+POSTGRES_PASSWORD=(whatever your password is)
 POSTGRES_DB=my_db
 AIRFLOW_UID=1000
 OPENAI_API_KEY=your_api_key_here
@@ -95,7 +95,7 @@ dbt_project:
       type: postgres
       host: localhost
       user: admin
-      password: (whatever you password is)
+      password: (whatever your password is)
       port: 5432
       dbname: my_db
       schema: public
