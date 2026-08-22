@@ -1,0 +1,22 @@
+# Environment & Secrets
+.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# dbt
+dbt_project/target/
+dbt_project/logs/
+
+# Airflow
+airflow/logs/
+airflow.db
+airflow-webserver.pid
+
+# OS / Editor
+.DS_Store
+.idea/
+.vscode/

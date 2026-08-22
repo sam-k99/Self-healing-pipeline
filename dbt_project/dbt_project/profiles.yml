@@ -1,0 +1,12 @@
+dbt_project:
+  outputs:
+    dev:
+      type: postgres
+      host: localhost       # <--- CHANGE THIS TO localhost
+      user: admin
+      password: 6790        # <--- MAKE SURE THIS MATCHES YOUR .env FILE
+      port: 5432
+      dbname: my_db
+      schema: public
+      threads: 1
+  target: dev

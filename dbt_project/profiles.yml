@@ -1,0 +1,12 @@
+dbt_project:
+  outputs:
+    dev:
+      type: postgres
+      host: localhost  # This is the Docker container name!
+      user: admin
+      password: "password123" # (Or whatever you changed it to in the .env file)
+      port: 5432
+      dbname: my_db
+      schema: public
+      threads: 1
+  target: dev
