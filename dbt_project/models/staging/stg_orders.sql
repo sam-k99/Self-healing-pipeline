@@ -3,6 +3,6 @@ SELECT
     order_id,
     user_id,
     order_amount,
-    user_dob,
+    date_of_birth AS user_dob,
     created_at
 FROM raw_orders
