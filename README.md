@@ -1,95 +1,94 @@
-<div align="center"> <img src="assets/shp.png" alt="SHP Logo" width="220"> </div>
+<div align="center">
+  <img src="assets/shp.png" alt="SHP Logo" width="220">
+</div>
 
-# Self-Healing Data Pipeline
+<h1 align="center">Self-Healing Data Pipeline</h1>
 
+<p align="center">
 An autonomous data engineering system that detects upstream schema drift, diagnoses broken dbt models, and repairs them without human intervention — then opens a Pull Request so a human stays in the loop before anything reaches production.
+</p>
 
-Built with **PostgreSQL**, **dbt**, **LangGraph**, and **Airflow**, this project demonstrates what an agentic response to pipeline failure looks like in practice: not an alert that pages an engineer at 2 AM, but a system that investigates its own failure, proposes a fix, verifies the fix against real tests, and hands off a reviewable artifact.
+<p align="center">
+Built with <b>PostgreSQL</b>, <b>dbt</b>, <b>LangGraph</b>, and <b>Airflow</b> — an agentic response to pipeline failure that investigates its own errors, proposes a fix, verifies it against real tests, and hands off a reviewable artifact.
+</p>
 
----
+<br>
 
-## Table of Contents
-
-- [Why This Exists](#why-this-exists)
-- [How It Works](#how-it-works)
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Setup and Installation](#setup-and-installation)
-- [Usage](#usage)
-- [Reviewing the Fix](#reviewing-the-fix)
-- [Engineering Decisions](#engineering-decisions)
-- [Roadmap](#roadmap)
-- [License](#license)
-
----
-
-## Why This Exists
-
-Schema drift is one of the most common and most disruptive failure modes in analytics engineering. An upstream team renames a column, a source system changes its export format, or an API contract shifts silently — and downstream dbt models break, tests fail, and dashboards go stale until someone manually traces the error back to its root cause.
-
-This project simulates that entire failure-and-recovery cycle end to end, with an AI agent standing in for the on-call engineer's first response: inspect the schema, understand the discrepancy, patch the SQL, and prove the patch works before ever touching `main`.
-
-## How It Works
-
-The pipeline runs through six coordinated stages, from data generation to a reviewable Git branch:
-
-| Stage | Description |
+| ![Agent Reasoning](assets/preview1.png) | ![Pull Request](assets/preview2.png) |
 |---|---|
-| **1. Ingestion** | A Python script generates mock e-commerce data and loads it into a `raw_orders` table in PostgreSQL. |
-| **2. Transformation & Testing** | dbt runs staging (`stg_orders`) and mart (`mart_revenue`) models, executing `not_null` and `unique` tests to validate the pipeline. |
-| **3. Sabotage (Simulated Drift)** | A script intentionally alters the `raw_orders` schema — for example, renaming `order_amount` to `total_amount` — to simulate an upstream breaking change. |
-| **4. Failure & Trigger** | The next dbt run fails. The resulting error log is passed to the AI agent as its starting context. |
-| **5. Agentic Loop (LangGraph)** | The agent inspects, reads, rewrites, and tests in a closed loop until the fix passes. |
-| **6. GitOps Finish** | The agent commits the fix to an isolated branch and opens a Pull Request for human review. |
 
-### The Agentic Loop in Detail
+<br>
 
-The core of the system is a LangGraph-orchestrated ReAct agent that cycles through four actions:
+## Features
 
-1. **Inspect** — Queries `information_schema.columns` to see the database's current, actual state.
-2. **Read** — Loads the failing `.sql` file from the local filesystem to understand what the model expects.
-3. **Write** — Rewrites the SQL to reconcile the mismatch, for example aliasing the new column name back to the expected one (`SELECT total_amount AS order_amount`).
-4. **Test** — Runs `dbt test` against the change. A failure sends the agent back to **Inspect**; a pass moves the workflow forward to the GitOps stage.
+- **Fully autonomous recovery** — no manual triage, the agent investigates and fixes on its own
+- **Closed-loop verification** — every fix is proven against real `dbt test` runs before it ships
+- **Schema-aware reasoning** — the agent inspects `information_schema` directly, not guesswork
+- **GitOps-native** — isolated branches and Pull Requests, never a direct push to `main`
+- **Reproducible by design** — idempotent Docker infrastructure, zero state drift between runs
+- **One-command demo** — the entire break/fix cycle runs end to end with a single script
+- **Model-agnostic** — works with any OpenAI-compatible API (OpenAI, Groq, Zhipu AI)
 
-This loop is what separates the system from a simple find-and-replace script: the agent reasons over real error output and real schema state, and it only stops once its fix is empirically verified.
+<br>
 
-## Project Structure
+## Components
 
-```text
-self-healing-pipeline/
-├── docker-compose.yml       # Docker services for Postgres and Airflow
-├── Dockerfile                # Custom Airflow image with dbt installed
-├── requirements.txt          # Python dependencies
-├── demo.py                   # One-click script to run the full break/fix cycle
-├── init/
-│   └── init.sql               # Postgres initialization script (creates raw table)
-├── src/
-│   ├── data_generator.py      # Generates mock data using Faker
-│   ├── schema_breaker.py      # Simulates upstream schema drift
-│   ├── agent_tools.py         # Python functions the AI uses to interact with the system
-│   └── agent.py                # LangGraph ReAct agent initialization and execution
-└── dbt_project/
-    ├── dbt_project.yml        # dbt configuration
-    ├── profiles.yml            # dbt database connection profile
-    └── models/
-        ├── staging/
-        │   ├── stg_orders.sql  # Target model for AI fixes
-        │   └── schema.yml      # dbt tests
-        └── marts/
-            └── mart_revenue.sql
-```
+| Component | Tool |
+|---|---|
+| Orchestration | [Airflow](https://airflow.apache.org/) |
+| Transformation & Testing | [dbt](https://www.getdbt.com/) |
+| Database | PostgreSQL |
+| Agentic Reasoning | [LangGraph](https://www.langchain.com/langgraph) (ReAct agent) |
+| Data Generation | Python + Faker |
+| Version Control | Git / GitHub (automated PRs) |
+| Runtime | Docker & Docker Compose |
 
-## Prerequisites
+<br>
+
+## Requirements
 
 - Docker and Docker Compose
 - Python 3.10+ and `venv`
 - An OpenAI-compatible API key (OpenAI, Groq, Zhipu AI, or similar)
 
-## Setup and Installation
+<details>
+<summary><b>Full dependency list (click to expand)</b></summary>
 
-### 1. Environment Configuration
+```bash
+# Python packages (requirements.txt)
+langgraph
+langchain
+langchain-openai
+dbt-postgres
+psycopg2-binary
+faker
+python-dotenv
+GitPython
+PyGithub
+```
 
-Clone the repository and create a `.env` file in the root directory:
+</details>
+
+<br>
+
+## Installation
+
+> Back up any existing `.env` or local configs before you start.
+
+```bash
+# Clone the repo
+git clone https://github.com/your-username/self-healing-pipeline.git
+cd self-healing-pipeline
+
+# Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+Then set up your `.env` file:
 
 ```env
 POSTGRES_USER=admin
@@ -99,25 +98,14 @@ AIRFLOW_UID=1000
 OPENAI_API_KEY=your_api_key_here
 ```
 
-### 2. Python Environment
-
-Create and activate a virtual environment, then install dependencies:
-
-```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-### 3. Infrastructure Setup
+<details>
+<summary><b>Infrastructure & dbt setup (click to expand)</b></summary>
 
 Start the PostgreSQL and Airflow containers. The `init.sql` script automatically creates the `raw_orders` table on first startup.
 
 ```bash
 docker compose up -d
 ```
-
-### 4. dbt Configuration
 
 Ensure `dbt_project/profiles.yml` points to your local Docker container:
 
@@ -136,9 +124,11 @@ dbt_project:
   target: dev
 ```
 
-## Usage
+</details>
 
-### Running the One-Click Demo
+<br>
+
+## Usage
 
 The `demo.py` script automates the entire cycle: it resets the environment, generates data, runs dbt, sabotages the schema, and triggers the AI agent.
 
@@ -147,14 +137,31 @@ export OPENAI_API_KEY="your_api_key_here"
 python demo.py
 ```
 
-### Expected Output
+**What happens, step by step:**
 
-1. The script resets `stg_orders.sql` to its clean state.
-2. Docker containers are wiped and rebuilt to ensure a pristine database.
-3. Mock data is generated and the initial dbt run passes cleanly.
-4. `schema_breaker.py` alters the database schema, simulating upstream drift.
-5. `agent.py` executes: the agent reasons aloud, inspects the database, rewrites the SQL, and reruns the tests.
-6. Upon success, the agent creates a Git branch and pushes the fix.
+1. `stg_orders.sql` is reset to its clean state
+2. Docker containers are wiped and rebuilt for a pristine database
+3. Mock data is generated and the initial dbt run passes cleanly
+4. `schema_breaker.py` alters the schema, simulating upstream drift
+5. `agent.py` runs: it reasons aloud, inspects the database, rewrites the SQL, and reruns the tests
+6. On success, the agent creates a Git branch and pushes the fix
+
+<br>
+
+## How It Works
+
+The core of the system is a LangGraph-orchestrated ReAct agent that cycles through four actions until its fix is verified:
+
+| Step | Action |
+|---|---|
+| Inspect | Queries `information_schema.columns` to see the database's current, actual state |
+| Read | Loads the failing `.sql` file to understand what the model expects |
+| Write | Rewrites the SQL to reconcile the mismatch (e.g. `SELECT total_amount AS order_amount`) |
+| Test | Runs `dbt test` — a failure loops back to Inspect, a pass moves on to GitOps |
+
+This loop is what separates the system from a simple find-and-replace script: the agent reasons over real error output and real schema state, and only stops once its fix is empirically verified.
+
+<br>
 
 ## Reviewing the Fix
 
@@ -166,23 +173,59 @@ agent-fix/stg_orders-<timestamp>
 
 Open the associated Pull Request to review the AI-generated SQL fix, its reasoning trail, and the passing test output before merging.
 
-## Engineering Decisions
+<br>
 
-**LangGraph for cyclical logic.** Standard LLM chains are linear and cannot recover from their own mistakes. Data engineering fixes are inherently iterative — LangGraph lets the agent loop: if `run_dbt_tests` fails, the agent reads the new error, returns to the rewrite phase, and tries again until it converges on a working fix.
+## Repository Structure
 
-**Idempotent infrastructure.** `demo.py` runs `docker compose down -v` to fully wipe the database volume on every execution. This guarantees zero state drift between runs, so the saboteur always breaks a known-clean schema and every demo run is reproducible.
+```
+self-healing-pipeline/
+├── assets/              # Screenshots and preview images
+├── init/                # Postgres initialization script
+├── src/                 # Data generator, schema breaker, agent tools, agent
+├── dbt_project/         # dbt models, staging, marts, tests
+├── docker-compose.yml   # Postgres and Airflow services
+├── Dockerfile           # Custom Airflow image with dbt installed
+├── requirements.txt     # Python dependencies
+├── demo.py              # One-click break/fix demo
+└── README.md
+```
 
-**Human-in-the-loop (HITL).** The agent never pushes directly to `main`. It commits to an isolated branch and opens a Pull Request instead, following standard enterprise GitOps practice — a human always reviews the agent's reasoning and diff before it can affect production data.
+<br>
+
+## Design Decisions
+
+- **LangGraph for cyclical logic** — standard LLM chains are linear and can't recover from their own mistakes; LangGraph lets the agent loop until its fix converges
+- **Idempotent infrastructure** — `docker compose down -v` wipes the database volume on every run, guaranteeing zero state drift between demos
+- **Human-in-the-loop** — the agent never pushes to `main`; it opens a Pull Request so a human always reviews the logic before it touches production data
+
+<br>
 
 ## Roadmap
-
-Ideas for extending this project further:
 
 - Support for additional drift scenarios beyond column renames (type changes, dropped columns, new required fields)
 - Slack or email notifications when the agent opens a Pull Request
 - A dashboard visualizing the agent's reasoning trail and historical fix success rate
 - Support for additional warehouses beyond PostgreSQL (Snowflake, BigQuery)
 
-## License
+<br>
 
-Add your preferred license here (for example, MIT, Apache 2.0) so others know how they can use this project.
+## Contributing
+
+Found a bug or have an idea to make this pipeline smarter?
+
+1. Fork the repo
+2. Create your branch (`git checkout -b feature/amazing-idea`)
+3. Commit your changes (`git commit -m 'add amazing idea'`)
+4. Push and open a Pull Request
+
+<br>
+
+## Show Some Love
+
+If this project helped you understand agentic data engineering, consider dropping a **star** — it helps others find it too.
+
+<div align="center">
+
+Thanks for stopping by.
+
+</div>
