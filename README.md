@@ -1,4 +1,5 @@
 <div align="center"> <img src="assets/shp.png" alt="SHP Logo" width="220"> </div>
+
 # Self-Healing Data Pipeline
 
 An autonomous data engineering system that detects upstream schema drift, diagnoses broken dbt models, and repairs them without human intervention — then opens a Pull Request so a human stays in the loop before anything reaches production.
