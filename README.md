@@ -183,6 +183,5 @@ Ideas for extending this project further:
 - A dashboard visualizing the agent's reasoning trail and historical fix success rate
 - Support for additional warehouses beyond PostgreSQL (Snowflake, BigQuery)
 
-## License
 
-Add your preferred license here (for example, MIT, Apache 2.0) so others know how they can use this project.
+Thanks for stopping by <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Cat.png" alt="Cat" width="32" height="32" />
