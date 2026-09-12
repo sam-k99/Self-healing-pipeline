@@ -1,4 +1,6 @@
-# Self-Healing Data Pipeline
+<div align="centre">
+   
+# Self-Healing Data Pipeline 
 
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
@@ -10,10 +12,9 @@
 ![LLM](https://img.shields.io/badge/LLM-OpenAI_compatible-412991?logo=openai&logoColor=white)
 ![License](https://img.shields.io/badge/license-add_one-yellow)
 
-
-
 > An autonomous AI agent that detects, diagnoses, and repairs upstream schema drift
 > in a dbt warehouse — then opens a pull request and waits for a human.
+</div>
 
 ## Overview
 
