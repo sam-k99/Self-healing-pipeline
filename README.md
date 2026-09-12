@@ -1,10 +1,10 @@
 # Self-Healing Data Pipeline
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)
-![dbt](https://img.shields.io/badge/dbt-core-FF694B)
-![LangGraph](https://img.shields.io/badge/agent-LangGraph_ReAct-1C3C3C)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1)
-![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+![dbt](https://img.shields.io/badge/dbt-core-FF694B?logo=dbt&logoColor=white)
+![LangGraph](https://img.shields.io/badge/agent-LangGraph_ReAct-1C3C3C?logo=langchain&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/license-add_one-yellow)
 
 > An autonomous AI agent that detects, diagnoses, and repairs upstream schema drift
@@ -387,7 +387,10 @@ Pull requests are welcome. If you extend the drift scenarios or the agent's
 toolkit, please run `demo.py` end to end and include the agent's transcript in
 your PR description so reviewers can see the loop converge.
 
+
+
 <div align="center">
 
 Thanks for stopping by <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Cat.png" alt="Cat" width="32" height="32" />
 
+</div>
