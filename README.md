@@ -1,5 +1,6 @@
 # Self-Healing Data Pipeline
 
+
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![dbt](https://img.shields.io/badge/dbt-core-FF694B?logo=dbt&logoColor=white)
 ![LangGraph](https://img.shields.io/badge/agent-LangGraph_ReAct-1C3C3C?logo=langchain&logoColor=white)
@@ -8,6 +9,8 @@
 ![Airflow](https://img.shields.io/badge/Airflow-orchestrator-017CEE?logo=apacheairflow&logoColor=white)
 ![LLM](https://img.shields.io/badge/LLM-OpenAI_compatible-412991?logo=openai&logoColor=white)
 ![License](https://img.shields.io/badge/license-add_one-yellow)
+
+
 
 > An autonomous AI agent that detects, diagnoses, and repairs upstream schema drift
 > in a dbt warehouse — then opens a pull request and waits for a human.
