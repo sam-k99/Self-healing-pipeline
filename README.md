@@ -5,6 +5,8 @@
 ![LangGraph](https://img.shields.io/badge/agent-LangGraph_ReAct-1C3C3C?logo=langchain&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
+![Airflow](https://img.shields.io/badge/Airflow-orchestrator-017CEE?logo=apacheairflow&logoColor=white)
+![LLM](https://img.shields.io/badge/LLM-OpenAI_compatible-412991?logo=openai&logoColor=white)
 ![License](https://img.shields.io/badge/license-add_one-yellow)
 
 > An autonomous AI agent that detects, diagnoses, and repairs upstream schema drift
