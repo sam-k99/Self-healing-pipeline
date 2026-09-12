@@ -1,6 +1,3 @@
-
-
-````markdown
 # Self-Healing Data Pipeline
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)
@@ -389,9 +386,6 @@ Ideas for extending this project further:
 Pull requests are welcome. If you extend the drift scenarios or the agent's
 toolkit, please run `demo.py` end to end and include the agent's transcript in
 your PR description so reviewers can see the loop converge.
-
----
-
 
 <div align="center">
 
