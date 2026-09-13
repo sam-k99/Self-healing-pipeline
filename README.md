@@ -1,4 +1,4 @@
-<div align="centre">
+<div align="center">
    
 # Self-Healing Data Pipeline 
 
