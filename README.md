@@ -1,6 +1,6 @@
 <div align="center">
    
-# Self-Healing Data Pipeline 
+<img src="assets/logo.svg" alt="Self-Healing Data Pipeline" width="600">
 
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
